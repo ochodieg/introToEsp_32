@@ -34,6 +34,8 @@ void setup() {
   // oh cool, i didn't know you can format strings in duino
   Serial.printf("The device with name \"%s\" is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str());
   //Serial.printf("The device with name \"%s\" and MAC address %s is started.\nNow you can pair it with Bluetooth!\n", device_name.c_str(), SerialBT.getMacString()); // Use this after the MAC method is implemented
+  
+  // macro conditional if pin is being used
   #ifdef USE_PIN
     SerialBT.setPin(pin);
     Serial.println("Using PIN");
@@ -41,10 +43,16 @@ void setup() {
 }
 
 void loop() {
+
+  // if data in serial
   if (Serial.available()) {
+    // write to esp's bt serial comms
     SerialBT.write(Serial.read());
   }
+
+  // if bt serial holds data
   if (SerialBT.available()) {
+    //print to serial
     Serial.write(SerialBT.read());
   }
   delay(20);
