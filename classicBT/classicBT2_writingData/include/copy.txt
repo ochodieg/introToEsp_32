@@ -1,7 +1,5 @@
 // https://www.circuitbasics.com/how-to-read-user-input-from-the-arduino-serial-monitor/
 //https://forum.arduino.cc/t/serial-input-basics-updated/382007
-// putty cmd  sudo putty /dev/ttyUSB0 -serial -sercfg 115200,8,n,1,N
-
 
 #include <Arduino.h>
 #include <BluetoothSerial.h>
@@ -73,9 +71,10 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(sensor), 
   detectsMovement,  // invoke method 
   FALLING);         
+  // note: more successful tracking using falling time (since pullup)
+  // the output signal is a waveform so both should work equally well
+  
   /*
-  note: more successful tracking using falling time (since pullup)
-  the output signal is a waveform so both should work equally well
   
   1) if set to H pir will detect less [?] because signal is LOW for
   duration of timer[?] and thus no new movement will be detected 
@@ -97,10 +96,48 @@ void setup() {
 void loop() {
   unsigned long currentMillis = millis();
 
-  now = millis();
+  // // if it has been 1 second since last blink
+  // if(currentMillis - lastBlink >= blinkTime){ // blink time will be 1 second
+  //   lastBlink = currentMillis;
 
-  getWord();
-  printWords();
+  //   if(digitalState == LOW){
+  //     digitalState = HIGH;
+  //   } else{
+  //     digitalState = LOW;
+  //   }
+
+  //   digitalWrite(led, digitalState);
+  now = millis();
+  //Serial.println(now);
+
+
+
+  // if(lilGuy.available()){ // if lilDude has someithing to say 
+  //   aLetter = lilGuy.read();
+  //   // aLetter = lilGuy.readStringUntil("\n"); // try this with string next time
+    
+  //   if(aLetter != '\n'){
+  //     aWord += String(aLetter); // casting char to string (i thought this didnt work in arduino C?) 
+  //   }
+  //   else{
+
+  //     if(aWord == "led_on"){  // boolean flag req's here -> can't 'read' digital outputs
+  //       // toggle
+  //       TOGGLE(led2);
+  //       Serial.println("led is on");
+  //       delay(1000);
+
+  //     }
+  //     else{
+  //       Serial.printf("you typed: %s", aWord);
+  //     }
+  //   }
+  // }
+
+
+
+getWord();
+printWords();
 
 
 
@@ -118,6 +155,9 @@ void loop() {
     startTimer = false;
     motion = false;
   }
+
+
+  
 }
 
 
@@ -172,10 +212,13 @@ void printWords(){
   String wordString = words;
   wordString.trim();
 
-  // Serial acts up unless both cases have the bool flag
-  // instead of just having it after if-statement
   if(gotWord == true){
-    if(wordString == HFLAG || wordString == LFLAG){
+    if(wordString == HFLAG){
+      TOGGLE(led2);
+      gotWord = false;
+    }
+    else if(wordString == LFLAG){
+      //TOGGLE2(led2);
       TOGGLE(led2);
       gotWord = false;
     }
@@ -184,6 +227,5 @@ void printWords(){
       gotWord = false;
     }
   }
-}     
-// need to adjust flush method, currently, unless you give it 1 - 2 secs, serial 
-// wont receive mssg                     
+  // lilGuy.flush();
+}                          
