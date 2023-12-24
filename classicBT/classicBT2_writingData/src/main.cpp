@@ -2,9 +2,16 @@
 //https://forum.arduino.cc/t/serial-input-basics-updated/382007
 // putty cmd  sudo putty /dev/ttyUSB0 -serial -sercfg 115200,8,n,1,N
 
+/*
+   a simple BT classic program that allows seiral comms between phone and esp
+   a motion sensor detects motion and lightens led,
+   sending a ble notification to connected device
+*/
+
 
 #include <Arduino.h>
 #include <BluetoothSerial.h>
+
 
 // macro ensuring bt configs are defined (kinda redundant no?)
 #if !defined(CONFIG_BT_ENABLED) || !defined (CONFIG_BLUEDROID_ENABLED)

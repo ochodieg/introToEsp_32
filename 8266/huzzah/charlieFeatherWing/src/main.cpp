@@ -105,6 +105,14 @@ void loop() {
   delay(3000);
 
   matrix.clear();
+  matrix.drawFastHLine(0,
+                      3,
+                      16,
+                      100);
+  delay(5000);
+
+
+  matrix.clear();
   matrix.drawRect(0,0, matrix.width(), matrix.height(), 100);
   delay(3000);
   matrix.fillRect(0,0, matrix.width()-4, matrix.height()-4, 255);
@@ -155,11 +163,11 @@ void loop() {
   // matrix.setRotation(1); // rotates text by 90 degrees
   // this also rotates location of origin?
   
-  for (int8_t x=30; x>=-30; x--) {
+  for (int8_t x=30; x>=-96; x--) {
     matrix.clear();
     matrix.setCursor(x,0);
-    matrix.print("World");
-    delay(100);
+    matrix.print("THIS IS A TEST");
+    delay(50);
   }
 
   matrix.clear();
@@ -171,9 +179,9 @@ void loop() {
 
   delay(2500);
 
-int set = 1;
+int set = 5;
 for (uint8_t x=0; x<16; x++) {
-  set+=10;
+  
   for (uint8_t y=0; y<9; y++) {
      if(x<=13){
       matrix.drawPixel(x, y, set);
@@ -184,6 +192,7 @@ for (uint8_t x=0; x<16; x++) {
     
   }
   delay(20);
+  set+=10;
 }
 
 delay(5000);
@@ -191,12 +200,31 @@ delay(5000);
 
 for (uint8_t x=0; x<16; x++) {
   for (uint8_t y=0; y<9; y++) {
-    matrix.drawPixel(x, y, 255);
+    matrix.drawPixel(x, y, 5);
     
   }
   delay(10);
 }
 delay(1000);
+
+while(1){
+        int bright = 0;
+        int amt = 0;
+        // animate over all the pixels, and set the brightness from the sweep table
+  for (uint8_t incr = 0; incr < 48; incr++)
+    for (uint8_t x = 0; x < 16; x++){
+      delay(5);
+      amt++;
+      bright = sweep[(x+amt+incr)%24];
+      for (uint8_t y = 0; y < 9; y++)
+        //matrix.drawPixel(x, y, sweep[(x+y+incr)%24]);
+        matrix.drawPixel(x, y, bright);
+  }
+//matrix.clear();
+//delay(20);
+}
+}
+
 
 // for(uint8_t x =0; x<16; x++){
 
@@ -211,20 +239,12 @@ delay(1000);
 
   
   
+///////////////////////////////////////////////////////////////
+ 
+///////////////////////////////////////////////////////////////
 
-  while(1){
-          // animate over all the pixels, and set the brightness from the sweep table
-    for (uint8_t incr = 0; incr < 24; incr++)
-      for (uint8_t x = 0; x < 16; x++){
-       delay(3);
-        for (uint8_t y = 0; y < 9; y++)
-          matrix.drawPixel(x, y, sweep[(x+y+incr)%24]);
-    }
-
-  //delay(20);
-  }
-
-
+//matrix.clear();
+//matrix.setCursor(3,7);
 /*
 trying to make matrix expand from center 
 but accidentally created a pulsing animation
@@ -232,28 +252,40 @@ that slows down
 */
 //4x8
 //3x7
-int j = -7;
-int k = -3;
-int l = 3;  // y origin
-int m = 7;  // x origin
-while(1){
-  for(int i = 0; i < 24; i++){
-    matrix.fillRect(0,0, matrix.width()+j, matrix.height()+k, sweep[(j+k+i)%24]);
-    delay(20);
-    j++;
-    k++;
-    l++;  // origin should expand to compensate for
-    m++;  // fillrect function
-    // might be easier to just make a linear function
+// int width = 4;
+// int height = 3;
+// int x = 6;  // y origin
+// int y = 2;  // x origin
+// int pwM = 0;
+// int val = 0;
+// while(1){
+//   for(int i = 0; i < 24; i++){
+//     // matrix.fillRect(0,0, matrix.width()+j, matrix.height()+k, sweep[(j+k+i)%24]);
+//     //matrix.fillRect(x,y,width,height,sweep[(width+height+i)%24]);
+//         pwM = map(pwM, val, 24, 0, 255);
+//         matrix.fillRect(x,
+//                     y, 
+//                     width, 
+//                     height, 
+//                     pwM);
+//     delay(2000);
+//     val++;                                                                                                       
+//     width += width;
+//     height += height;
+//     x--;  // origin should expand to compensate for
+//     y--;  // fillrect function
+//     // might be easier to just make a linear function
     
-    if (j>=15){
-      int j = -7;
-      int k = -3;
-      int l = 3;
-      int m = 7;
-    }
-  }
-}
+//     if (width<=-15){
+//       x = 6;
+//       y = 2;
+//       width = 4;
+//       height = 3;
+//       matrix.clear();
+//       pwM = 0;
+//       val = 0;
+//     }
+//   }
+// }
 
 
-}

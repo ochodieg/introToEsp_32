@@ -2,6 +2,10 @@
 
 #include "BluetoothSerial.h"
 
+/*
+a simple prog where you can send messages between phone and esp
+*/
+
 // used if pin will be req'd
 //#define USE_PIN 
 // pin that will be used
