@@ -1,0 +1,22 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "~/.arduino15/**",
+                "~/Arduino/libraries/**",
+                "~/Documents/PlatformIO/**",
+                "~/Documents/PlatformIO/Projects/**",
+                "~/Documents/PlatformIO/Projects/tempTest/include/**",
+                "~/Desktop/self_teaching/esp32/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-x64"
+        }
+    ],
+    "version": 4
+}
